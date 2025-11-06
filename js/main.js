@@ -115,6 +115,31 @@ async function preloadData() {
     }
 }
 
+// פונקציה לזיהוי מובייל
+function isMobileDevice() {
+    return window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
+// טיפול בכפתור הורדת החוברת
+function setupDownloadBookletButton() {
+    const downloadButton = document.getElementById('download-booklet-nav');
+    if (!downloadButton) return;
+    
+    downloadButton.addEventListener('click', function(e) {
+        // אם זה מובייל, הורד ישירות
+        if (isMobileDevice()) {
+            e.preventDefault();
+            const link = document.createElement('a');
+            link.href = 'assets/docs/חוברת חנוכה תשפו לניידים.pdf';
+            link.download = 'חוברת חנוכה תשפו לניידים.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        // אם זה מחשב, תן לזה לעבוד כרגיל (ניווט ל-#downloads-section)
+    });
+}
+
 // אתחול בטעינת הדף
 document.addEventListener('DOMContentLoaded', () => {
     // אתחול מצב לילה
@@ -125,6 +150,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // בדיקת חיבור לשרת
     testAppScriptConnection();
+    
+    // הגדרת כפתור הורדת החוברת
+    setupDownloadBookletButton();
 });
 
 // מעקב אחר גלילת העמוד

@@ -30,7 +30,7 @@ function initAnimations() {
 function shareWebsite() {
     const shareData = {
         title: 'מתיקות התורה',
-        text: 'הצטרפו לפעילות הקיץ של אור ישראלי! 📚\n\n אגדות חז"ל על חורבן הבית 🌟\n\nפרטים נוספים:',
+        text: 'הצטרפו לפעילות  של אור ישראלי! 📚\n\nחידון חנוכה מרתק🕎\n\nפרטים נוספים:',
         url: window.location.origin
     };
 
@@ -46,7 +46,7 @@ function shareWebsite() {
 }
 
 function shareOnWhatsApp() {
-    const text = encodeURIComponent('הצטרפו לפעילות הקיץ של אור ישראלי! 📚\n\n אגדות חז"ל על חורבן הבית עם אלפי נערים ברחבי הארץ 🌟\n\nלפרטים נוספים:\n') + 
+    const text = encodeURIComponent('הצטרפו לפעילות של אור ישראלי! 📚\n\nחידון חנוכה מרתק🕎\n\nלפרטים נוספים:\n') + 
                 encodeURIComponent(window.location.origin);
     window.open(`https://wa.me/?text=${text}`, '_blank');
 }

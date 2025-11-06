@@ -856,14 +856,14 @@ function showQuestion(index) {
     } else {
         prevButton.style.display = 'block';
         prevButton.classList.remove('cancel-button');
-        prevButton.innerHTML = `<span class="material-icons">arrow_forward</span>הקודמת`;
+        prevButton.innerHTML = `<span class="material-icons">arrow_forward</span>הקודם`;
     }
     
     if (index === currentQuestions.length - 1) {
         nextButton.style.display = 'none';
     } else {
         nextButton.style.display = 'block';
-        nextButton.innerHTML = `הבאה<span class="material-icons">arrow_back</span>`;
+        nextButton.innerHTML = `הבא<span class="material-icons">arrow_back</span>`;
     }
     
     submitButton.classList.toggle('hidden', index !== currentQuestions.length - 1);

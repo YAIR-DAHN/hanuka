@@ -6,8 +6,8 @@ const CONFIG = {
 
     // הגדרות חידון חנוכה
     quiz: {
-        isAvailable: true,  // האם החידון זמין כרגע
-        nextQuizDate: '2025-01-15',  // תאריך החידון הבא
+        // isAvailable: false,  // האם החידון זמין כרגע
+        isAvailable: true,  //   לא עובד!!!         nextQuizDate: '2025-01-15',  // תאריך החידון הבא
         hebrewDate: "יום רביעי",  // תאריך עברי
         displayDate: "15.1",  // תאריך לתצוגה
         showAnnouncement: true,  // האם להציג הודעה לפני החידון

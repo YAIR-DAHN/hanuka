@@ -76,9 +76,14 @@
 
 /* התאמה למובייל */
 @media screen and (max-width: 768px) {
+    .carousel-container {
+        padding: 0.5rem;
+    }
+    
     .carousel-button {
-        width: 35px;
-        height: 35px;
+        width: 44px; /* Touch target minimum */
+        height: 44px;
+        font-size: 1.2rem;
     }
 
     .carousel-button.prev {
@@ -91,6 +96,53 @@
 
     .carousel-slide {
         padding: 0.5rem;
+    }
+    
+    .carousel-dot {
+        width: 12px;
+        height: 12px;
+        min-width: 12px;
+        min-height: 12px;
+    }
+    
+    .announcement-card {
+        border-radius: 12px;
+    }
+    
+    .announcement-overlay {
+        padding: 1rem;
+    }
+    
+    .announcement-overlay .material-icons {
+        font-size: 2rem;
+    }
+    
+    .announcement-overlay span {
+        font-size: 0.9rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .carousel-container {
+        padding: 0.25rem;
+    }
+    
+    .carousel-button {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    
+    .carousel-slide {
+        padding: 0.25rem;
+    }
+    
+    .announcement-overlay .material-icons {
+        font-size: 1.5rem;
+    }
+    
+    .announcement-overlay span {
+        font-size: 0.85rem;
     }
 }
 

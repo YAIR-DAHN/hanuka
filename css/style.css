@@ -1183,6 +1183,10 @@ body::before {
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 @media (max-width: 480px) {
+    .downloads-section
+    {
+        display: none;
+    }
     .book-viewer-container {
         display: none;
     }

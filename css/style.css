@@ -336,6 +336,48 @@ body::before {
     margin-bottom: 2rem;
 }
 
+.important-notice {
+    background: linear-gradient(135deg, #FFD700 0%, #FF8C00 100%);
+    border: 2px solid #B8860B;
+    border-radius: 15px;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+    animation: noticePulse 2s ease-in-out infinite;
+}
+
+.important-notice .material-icons {
+    color: #8B0000;
+    font-size: 2rem;
+    flex-shrink: 0;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.important-notice p {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    flex: 1;
+}
+
+.important-notice strong {
+    color: #8B0000;
+    font-weight: 700;
+}
+
+@keyframes noticePulse {
+    0%, 100% {
+        box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+    }
+    50% {
+        box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
+    }
+}
+
 .registration-form h3 {
     font-size: 1.8rem;
     font-weight: 600;
@@ -3512,6 +3554,21 @@ body::before {
         padding: 1.5rem;
     }
     
+    .important-notice {
+        padding: 1rem;
+        flex-direction: column;
+        text-align: center;
+        gap: 0.8rem;
+    }
+    
+    .important-notice .material-icons {
+        font-size: 1.8rem;
+    }
+    
+    .important-notice p {
+        font-size: 1rem;
+    }
+    
     .form-group {
         margin-bottom: 1.25rem;
     }
@@ -3849,6 +3906,19 @@ body::before {
     .registration-form,
     .registration-container {
         padding: 1.25rem;
+    }
+    
+    .important-notice {
+        padding: 0.9rem;
+        gap: 0.6rem;
+    }
+    
+    .important-notice .material-icons {
+        font-size: 1.5rem;
+    }
+    
+    .important-notice p {
+        font-size: 0.95rem;
     }
     
     .form-group input[type="text"],

@@ -231,6 +231,17 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log('Comment form:', commentForm);
     console.log('Comments container:', commentsContainer);
 
+    // Setup sort select
+    const sortSelect = document.getElementById('sortCommentsSelect');
+    if (sortSelect) {
+        sortSelect.value = getSortOrder();
+        sortSelect.addEventListener('change', function () {
+            console.log('Sort order changed to:', this.value);
+            setSortOrder(this.value);
+            loadComments();
+        });
+    }
+
     // Load existing comments
     console.log('Starting to load comments...');
     if (!window.DISCUSSION_ID) {
@@ -410,7 +421,23 @@ document.addEventListener('DOMContentLoaded', function () {
                     // Add replies to this comment in the replies container
                     const replies = repliesMap.get(comment.id.toString()) || [];
                     if (replies.length > 0) {
-                        replies.sort((a, b) => a.timestamp - b.timestamp); // Replies in chronological order
+                        // Sort replies according to the selected order
+                        const sortOrder = getSortOrder();
+                        if (sortOrder === 'newest') {
+                            replies.sort((a, b) => {
+                                const timeA = a.timestamp || new Date(a.date || 0).getTime() || 0;
+                                const timeB = b.timestamp || new Date(b.date || 0).getTime() || 0;
+                                return timeB - timeA;
+                            });
+                        } else if (sortOrder === 'oldest') {
+                            replies.sort((a, b) => {
+                                const timeA = a.timestamp || new Date(a.date || 0).getTime() || 0;
+                                const timeB = b.timestamp || new Date(b.date || 0).getTime() || 0;
+                                return timeA - timeB;
+                            });
+                        } else if (sortOrder === 'mostLiked') {
+                            replies.sort((a, b) => (b.likes || 0) - (a.likes || 0));
+                        }
                         const repliesContainer = document.getElementById(`replies-${comment.id}`);
                         if (repliesContainer) {
                             replies.forEach(reply => {
@@ -1366,7 +1393,6 @@ function loadUserDetailsFromLocalStorage() {
 }
 
 // סידור תגובות - שליטה וסידור
-const sortSelect = document.getElementById('sortCommentsSelect');
 const SORT_KEY = 'commentsSortOrder';
 function getSortOrder() {
     const discussionId = window.DISCUSSION_ID || 'default';
@@ -1375,13 +1401,6 @@ function getSortOrder() {
 function setSortOrder(val) {
     const discussionId = window.DISCUSSION_ID || 'default';
     localStorage.setItem(`${SORT_KEY}_${discussionId}`, val);
-}
-if (sortSelect) {
-    sortSelect.value = getSortOrder();
-    sortSelect.addEventListener('change', function () {
-        setSortOrder(this.value);
-        loadComments();
-    });
 }
 
 // עדכון loadComments כך שימיין לפי הסדר שנבחר
@@ -1404,16 +1423,7 @@ async function loadComments() {
             
             console.log('After filtering, found', comments.length, 'comments for discussion:', discussionId);
             
-            // סידור ראשי
-            const sortOrder = getSortOrder();
-            if (sortOrder === 'newest') {
-                comments.sort((a, b) => b.timestamp - a.timestamp);
-            } else if (sortOrder === 'oldest') {
-                comments.sort((a, b) => a.timestamp - b.timestamp);
-            } else if (sortOrder === 'mostLiked') {
-                comments.sort((a, b) => (b.likes || 0) - (a.likes || 0));
-            }
-            // ארגון היררכי
+            // קודם נארגן היררכית
             const topLevelComments = [];
             const repliesMap = new Map();
             comments.forEach(comment => {
@@ -1425,6 +1435,46 @@ async function loadComments() {
                     topLevelComments.push(comment);
                 }
             });
+            
+            // עכשיו נמיין את התגובות הראשיות לפי הסדר שנבחר
+            const sortOrder = getSortOrder();
+            console.log('Sorting comments by:', sortOrder);
+            
+            if (sortOrder === 'newest') {
+                topLevelComments.sort((a, b) => {
+                    const timeA = a.timestamp || new Date(a.date || 0).getTime() || 0;
+                    const timeB = b.timestamp || new Date(b.date || 0).getTime() || 0;
+                    return timeB - timeA;
+                });
+            } else if (sortOrder === 'oldest') {
+                topLevelComments.sort((a, b) => {
+                    const timeA = a.timestamp || new Date(a.date || 0).getTime() || 0;
+                    const timeB = b.timestamp || new Date(b.date || 0).getTime() || 0;
+                    return timeA - timeB;
+                });
+            } else if (sortOrder === 'mostLiked') {
+                topLevelComments.sort((a, b) => (b.likes || 0) - (a.likes || 0));
+            }
+            
+            // נמיין גם את התגובות-משנה לפי אותו סדר
+            repliesMap.forEach((replies, parentId) => {
+                if (sortOrder === 'newest') {
+                    replies.sort((a, b) => {
+                        const timeA = a.timestamp || new Date(a.date || 0).getTime() || 0;
+                        const timeB = b.timestamp || new Date(b.date || 0).getTime() || 0;
+                        return timeB - timeA;
+                    });
+                } else if (sortOrder === 'oldest') {
+                    replies.sort((a, b) => {
+                        const timeA = a.timestamp || new Date(a.date || 0).getTime() || 0;
+                        const timeB = b.timestamp || new Date(b.date || 0).getTime() || 0;
+                        return timeA - timeB;
+                    });
+                } else if (sortOrder === 'mostLiked') {
+                    replies.sort((a, b) => (b.likes || 0) - (a.likes || 0));
+                }
+            });
+            
             // הצגה
             topLevelComments.forEach(comment => {
                 addCommentToDisplay(comment, null, repliesMap);

@@ -40,9 +40,9 @@ const cache = {
 
 // הגדרת זמינות החידון
 const QUIZ_CONFIG = {
-    // isAvailable: false, // האם החידון זמין כרגע
-    isAvailable: true, // האם החידון זמין כרגע
-    nextQuizDate: '2024-05-26'  // תאריך החידון הבא
+    isAvailable: false, // האם החידון זמין כרגע
+    // isAvailable: true, // האם החידון זמין כרגע
+    nextQuizDate: '2025-11-24'  // תאריך החידון הבא
 };
 
 function showLoading() {

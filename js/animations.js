@@ -31,7 +31,7 @@ function shareWebsite() {
     const shareData = {
         title: 'מתיקות התורה',
         text: 'הצטרפו לפעילות  של אור ישראלי! 📚\n\nחידון חנוכה מרתק🕎\n\nפרטים נוספים:',
-        url: window.location.origin
+        url: window.location.href
     };
 
     // בדיקה אם יש תמיכה ב-Web Share API

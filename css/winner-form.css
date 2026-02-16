@@ -1,138 +1,217 @@
 .form-section {
-    max-width: 600px;
+    max-width: 700px;
     margin: 2rem auto;
     padding: 0 1rem;
 }
 
 .form-header {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
 }
 
 .form-header h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
+    gap: 0.75rem;
     color: var(--primary-color);
-    margin-bottom: 0.5rem;
-    font-size: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 2.25rem;
+    font-weight: 700;
+}
+
+.form-header h1 .material-icons {
+    font-size: 2.5rem;
 }
 
 .form-subtitle {
     color: var(--text-secondary);
-    font-size: 1.1rem;
+    font-size: 1.15rem;
+    line-height: 1.6;
 }
 
 .winner-form {
-    background: var(--card-bg);
-    border-radius: 15px;
-    padding: 2rem;
-    box-shadow: var(--shadow);
+    background: rgb(209, 196, 196);
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     margin-bottom: 2rem;
+    animation: slideInUp 0.6s ease-out;
 }
 
 .form-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.75rem;
 }
 
 .form-group label {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-weight: bold;
+    font-weight: 600;
     color: var(--text-primary);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.05rem;
+}
+
+.form-group label .material-icons {
+    font-size: 1.25rem;
+    color: var(--primary-color);
 }
 
 .form-group input,
 .form-group select {
     width: 100%;
-    padding: 12px 16px;
+    padding: 14px 18px;
     border: 2px solid var(--border-color);
-    border-radius: 10px;
+    border-radius: 12px;
     font-size: 1rem;
     background: var(--input-bg);
     color: var(--text-primary);
     transition: all 0.3s ease;
     box-sizing: border-box;
+    font-family: inherit;
+}
+
+.form-group input:hover,
+.form-group select:hover {
+    border-color: var(--primary-color);
 }
 
 .form-group input:focus,
 .form-group select:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(189, 168, 128, 0.1);
+    box-shadow: 0 0 0 4px rgba(26, 188, 156, 0.15);
+    transform: translateY(-1px);
+}
+
+.form-group input:invalid:not(:placeholder-shown) {
+    border-color: #dc3545;
+}
+
+.form-group input:valid:not(:placeholder-shown) {
+    border-color: #28a745;
 }
 
 .bank-details-section {
-    background: var(--secondary-bg);
-    border-radius: 10px;
-    padding: 1.5rem;
-    margin: 2rem 0;
-    border: 1px solid var(--border-color);
+    background: linear-gradient(135deg, var(--secondary-bg) 0%, rgba(26, 188, 156, 0.05) 100%);
+    border-radius: 15px;
+    padding: 2rem;
+    margin: 2.5rem 0;
+    border: 2px solid var(--border-color);
+    position: relative;
+    overflow: hidden;
+}
+
+.bank-details-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(26, 188, 156, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    transform: translate(30px, -30px);
 }
 
 .bank-details-section h3 {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.75rem;
     color: var(--primary-color);
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
+    font-size: 1.4rem;
+    font-weight: 700;
+    position: relative;
+    z-index: 1;
+}
+
+.bank-details-section h3 .material-icons {
+    font-size: 1.75rem;
 }
 
 .bank-note {
     display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: rgba(255, 193, 7, 0.1);
+    align-items: flex-start;
+    gap: 0.75rem;
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.15) 0%, rgba(255, 193, 7, 0.05) 100%);
     color: #856404;
-    padding: 0.75rem;
-    border-radius: 8px;
-    margin-bottom: 1.5rem;
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    margin-bottom: 1.75rem;
     font-weight: 500;
+    border-right: 4px solid #ffc107;
+    position: relative;
+    z-index: 1;
+}
+
+.bank-note .material-icons {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    margin-top: 2px;
 }
 
 .submit-btn {
     width: 100%;
-    background: linear-gradient(45deg, var(--primary-color), #a89a6f);
+    background: linear-gradient(135deg, var(--primary-color) 0%, #16a085 100%);
     color: white;
     border: none;
-    padding: 15px 20px;
-    border-radius: 10px;
-    font-size: 1.1rem;
-    font-weight: bold;
+    padding: 18px 24px;
+    border-radius: 12px;
+    font-size: 1.15rem;
+    font-weight: 700;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
+    gap: 0.75rem;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    margin-top: 1rem;
+    box-shadow: 0 4px 15px rgba(26, 188, 156, 0.3);
+}
+
+.submit-btn .material-icons {
+    font-size: 1.5rem;
 }
 
 .submit-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(189, 168, 128, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(26, 188, 156, 0.4);
+    background: linear-gradient(135deg, #16a085 0%, var(--primary-color) 100%);
+}
+
+.submit-btn:active {
+    transform: translateY(-1px);
+}
+
+.submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
 }
 
 .success-message,
 .error-message {
     background: var(--card-bg);
-    border-radius: 15px;
-    padding: 2rem;
-    box-shadow: var(--shadow);
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     text-align: center;
     margin-top: 2rem;
+    animation: slideInUp 0.6s ease-out;
 }
 
 .success-message {
-    border: 2px solid #28a745;
+    border: 3px solid #28a745;
+    background: linear-gradient(135deg, rgba(40, 167, 69, 0.05) 0%, var(--card-bg) 100%);
 }
 
 .error-message {
-    border: 2px solid #dc3545;
+    border: 3px solid #dc3545;
+    background: linear-gradient(135deg, rgba(220, 53, 69, 0.05) 0%, var(--card-bg) 100%);
 }
 
 .success-content,
@@ -140,27 +219,43 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    gap: 1.25rem;
 }
 
 .success-icon {
     color: #28a745;
-    font-size: 3rem;
+    font-size: 4rem;
+    animation: scaleIn 0.5s ease-out;
 }
 
 .error-icon {
     color: #dc3545;
-    font-size: 3rem;
+    font-size: 4rem;
+    animation: scaleIn 0.5s ease-out;
+}
+
+.success-content h3,
+.error-content h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
 }
 
 .success-content h3 {
     color: #28a745;
-    margin: 0;
 }
 
 .error-content h3 {
     color: #dc3545;
+}
+
+.success-content p,
+.error-content p {
     margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    max-width: 500px;
 }
 
 .hidden {
@@ -170,11 +265,71 @@
 /* Responsive */
 @media (max-width: 768px) {
     .form-section {
+        padding: 0 0.75rem;
+        margin: 1rem auto;
+    }
+
+    .winner-form {
+        padding: 1.75rem;
+        border-radius: 15px;
+    }
+
+    .form-header h1 {
+        font-size: 1.75rem;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .form-header h1 .material-icons {
+        font-size: 2rem;
+    }
+.winner-form
+    .form-subtitle {
+        font-size: 1rem;
+    }
+
+    .bank-details-section {
+        padding: 1.5rem;
+        margin: 2rem 0;
+    }
+
+    .bank-details-section h3 {
+        font-size: 1.2rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group input,
+    .form-group select {
+        padding: 12px 16px;
+    }
+
+    .submit-btn {
+        padding: 16px 20px;
+        font-size: 1.05rem;
+    }
+
+    .success-message,
+    .error-message {
+        padding: 2rem 1.5rem;
+    }
+
+    .success-icon,
+    .error-icon {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .form-section {
         padding: 0 0.5rem;
     }
 
     .winner-form {
         padding: 1.5rem;
+        background: white;
     }
 
     .form-header h1 {
@@ -182,23 +337,30 @@
     }
 
     .bank-details-section {
-        padding: 1rem;
+        padding: 1.25rem;
     }
 }
 
 /* אנימציות */
-.winner-form {
-    animation: slideInUp 0.6s ease-out;
-}
-
 @keyframes slideInUp {
     from {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(40px);
     }
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
     }
 }
 
@@ -208,7 +370,7 @@
     overflow: hidden;
 }
 
-.ripple:before {
+.ripple::after {
     content: '';
     position: absolute;
     top: 50%;
@@ -216,12 +378,41 @@
     width: 0;
     height: 0;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.6);
     transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
+    transition: width 0.6s ease, height 0.6s ease;
+    pointer-events: none;
 }
 
-.ripple:active:before {
-    width: 300px;
-    height: 300px;
+.ripple:active::after {
+    width: 400px;
+    height: 400px;
+}
+
+/* אפקטים נוספים */
+.form-group input::placeholder,
+.form-group select option:first-child {
+    color: var(--text-secondary);
+    opacity: 0.7;
+}
+
+/* אנימציה לטופס */
+.winner-form .form-group {
+    animation: fadeIn 0.6s ease-out backwards;
+}
+
+.winner-form .form-group:nth-child(1) { animation-delay: 0.1s; }
+.winner-form .form-group:nth-child(2) { animation-delay: 0.2s; }
+.winner-form .form-group:nth-child(3) { animation-delay: 0.3s; }
+.winner-form .form-group:nth-child(4) { animation-delay: 0.4s; }
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 } 

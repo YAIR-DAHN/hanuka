@@ -1,5 +1,3 @@
-
-
 // טעינת רשימת הסניפים
 document.addEventListener('DOMContentLoaded', function() {
     loadBranches();
@@ -10,16 +8,18 @@ async function loadBranches() {
     try {
         const response = await fetchFromAPI('getBranches');
         
-        if (response.data) {
+        if (response && response.data) {
             const branchSelect = document.getElementById('branch');
-            branchSelect.innerHTML = '<option value="">בחר סניף</option>';
-            
-            response.data.forEach(branch => {
-                const option = document.createElement('option');
-                option.value = branch;
-                option.textContent = branch;
-                branchSelect.appendChild(option);
-            });
+            if (branchSelect) {
+                branchSelect.innerHTML = '<option value="">בחר סניף</option>';
+                
+                response.data.forEach(branch => {
+                    const option = document.createElement('option');
+                    option.value = branch;
+                    option.textContent = branch;
+                    branchSelect.appendChild(option);
+                });
+            }
         }
     } catch (error) {
         console.error('שגיאה בטעינת סניפים:', error);
@@ -29,36 +29,84 @@ async function loadBranches() {
 
 function initializeForm() {
     const form = document.getElementById('winnerForm');
+    if (!form) return;
+    
     const idInput = document.getElementById('idNumber');
     const phoneInput = document.getElementById('phone');
     const parentPhoneInput = document.getElementById('parentPhone');
+    const accountNumberInput = document.getElementById('accountNumber');
 
-    // תיקוף תעודת זהות
-    idInput.addEventListener('input', function() {
-        this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);
-    });
+    // תיקוף תעודת זהות - רק ספרות, מקסימום 9
+    if (idInput) {
+        idInput.addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);
+        });
+        
+        idInput.addEventListener('blur', function() {
+            if (this.value && this.value.length !== 9) {
+                this.setCustomValidity('מספר תעודת זהות חייב להכיל 9 ספרות');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+    }
 
-    // תיקוף טלפון
-    phoneInput.addEventListener('input', function() {
-        let value = this.value.replace(/[^0-9]/g, '');
-        if (value.length > 3 && value.length <= 6) {
-            value = value.replace(/(\d{3})(\d+)/, '$1-$2');
-        } else if (value.length > 6) {
-            value = value.replace(/(\d{3})(\d{3})(\d+)/, '$1-$2-$3');
-        }
-        this.value = value;
-    });
+    // תיקוף טלפון - פורמט אוטומטי
+    if (phoneInput) {
+        phoneInput.addEventListener('input', function() {
+            let value = this.value.replace(/[^0-9]/g, '');
+            if (value.length > 0) {
+                if (value.length <= 3) {
+                    this.value = value;
+                } else if (value.length <= 6) {
+                    this.value = value.replace(/(\d{3})(\d+)/, '$1-$2');
+                } else {
+                    this.value = value.replace(/(\d{3})(\d{3})(\d+)/, '$1-$2-$3');
+                }
+            }
+        });
+        
+        phoneInput.addEventListener('blur', function() {
+            const digits = this.value.replace(/[^0-9]/g, '');
+            if (digits.length < 9 || digits.length > 10 || !digits.startsWith('0')) {
+                this.setCustomValidity('מספר טלפון אינו תקין');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+    }
 
-    // תיקוף טלפון הורה
-    parentPhoneInput.addEventListener('input', function() {
-        let value = this.value.replace(/[^0-9]/g, '');
-        if (value.length > 3 && value.length <= 6) {
-            value = value.replace(/(\d{3})(\d+)/, '$1-$2');
-        } else if (value.length > 6) {
-            value = value.replace(/(\d{3})(\d{3})(\d+)/, '$1-$2-$3');
-        }
-        this.value = value;
-    });
+    // תיקוף טלפון הורה - פורמט אוטומטי
+    if (parentPhoneInput) {
+        parentPhoneInput.addEventListener('input', function() {
+            let value = this.value.replace(/[^0-9]/g, '');
+            if (value.length > 0) {
+                if (value.length <= 3) {
+                    this.value = value;
+                } else if (value.length <= 6) {
+                    this.value = value.replace(/(\d{3})(\d+)/, '$1-$2');
+                } else {
+                    this.value = value.replace(/(\d{3})(\d{3})(\d+)/, '$1-$2-$3');
+                }
+            }
+        });
+        
+        parentPhoneInput.addEventListener('blur', function() {
+            const digits = this.value.replace(/[^0-9]/g, '');
+            if (digits.length < 9 || digits.length > 10 || !digits.startsWith('0')) {
+                this.setCustomValidity('מספר טלפון אינו תקין');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+    }
+
+    // תיקוף מספר חשבון - רק ספרות
+    if (accountNumberInput) {
+        accountNumberInput.addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+    }
 
     // טיפול בשליחת הטופס
     form.addEventListener('submit', handleSubmit);
@@ -82,11 +130,11 @@ async function handleSubmit(event) {
             winnerDetails: data
         });
         
-        if (response.success) {
+        if (response && response.success) {
             showSuccess();
             event.target.reset();
         } else {
-            showError(response.error || 'שגיאה בשליחת הטופס');
+            showError(response?.error || 'שגיאה בשליחת הטופס');
         }
     } catch (error) {
         console.error('שגיאה בשליחת טופס זכייה:', error);
@@ -97,14 +145,29 @@ async function handleSubmit(event) {
 }
 
 function validateForm(data) {
-    // בדיקות תיקוף בסיסיות
-    if (data.idNumber && !/^\d{9}$/.test(data.idNumber)) {
-        showError('מספר תעודת הזהות חייב להכיל 9 ספרות');
+    // בדיקת תעודת זהות
+    if (!data.idNumber || !/^\d{9}$/.test(data.idNumber)) {
+        showError('מספר תעודת הזהות חייב להכיל בדיוק 9 ספרות');
         return false;
     }
     
-    if (data.phone && !/^0\d{1,2}-?\d{3}-?\d{4}$/.test(data.phone.replace(/-/g, ''))) {
-        showError('מספר הטלפון אינו תקין');
+    // בדיקת טלפון זוכה
+    const phoneDigits = data.phone?.replace(/[^0-9]/g, '') || '';
+    if (!phoneDigits || phoneDigits.length < 9 || phoneDigits.length > 10 || !phoneDigits.startsWith('0')) {
+        showError('מספר הטלפון של הזוכה אינו תקין');
+        return false;
+    }
+    
+    // בדיקת טלפון הורה
+    const parentPhoneDigits = data.parentPhone?.replace(/[^0-9]/g, '') || '';
+    if (!parentPhoneDigits || parentPhoneDigits.length < 9 || parentPhoneDigits.length > 10 || !parentPhoneDigits.startsWith('0')) {
+        showError('מספר הטלפון של ההורה אינו תקין');
+        return false;
+    }
+    
+    // בדיקת מספר חשבון
+    if (!data.accountNumber || !/^\d+$/.test(data.accountNumber)) {
+        showError('מספר חשבון הבנק אינו תקין');
         return false;
     }
     
@@ -113,7 +176,9 @@ function validateForm(data) {
 
 function showLoading(show) {
     const loading = document.getElementById('loading');
-    loading.classList.toggle('hidden', !show);
+    if (loading) {
+        loading.classList.toggle('hidden', !show);
+    }
 }
 
 function showSuccess() {
@@ -121,35 +186,38 @@ function showSuccess() {
     const error = document.getElementById('errorMessage');
     const form = document.getElementById('winnerForm');
     
-    success.classList.remove('hidden');
-    error.classList.add('hidden');
-    form.classList.add('hidden');
+    if (success) success.classList.remove('hidden');
+    if (error) error.classList.add('hidden');
+    if (form) form.classList.add('hidden');
     
     // גלילה לתוצאה
-    success.scrollIntoView({ behavior: 'smooth' });
+    if (success) {
+        setTimeout(() => {
+            success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
+    }
 }
 
 function showError(message) {
     const error = document.getElementById('errorMessage');
     const success = document.getElementById('successMessage');
     const errorText = document.getElementById('errorText');
+    const form = document.getElementById('winnerForm');
     
-    errorText.textContent = message;
-    error.classList.remove('hidden');
-    success.classList.add('hidden');
+    if (errorText) errorText.textContent = message;
+    if (error) error.classList.remove('hidden');
+    if (success) success.classList.add('hidden');
+    if (form) form.classList.remove('hidden');
     
     // גלילה לשגיאה
-    error.scrollIntoView({ behavior: 'smooth' });
+    if (error) {
+        setTimeout(() => {
+            error.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
+    }
     
     // הסתרת השגיאה אחרי 5 שניות
     setTimeout(() => {
-        error.classList.add('hidden');
+        if (error) error.classList.add('hidden');
     }, 5000);
-}
-
-
-
-// פונקציה להצגת פרטי יצירת האתר
-function showContactInfo() {
-    alert('נבנה על ידי Y.D. Systems\nלפרטים נוספים: ydcodesystems@gmail.com');
 } 
